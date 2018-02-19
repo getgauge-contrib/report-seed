@@ -1,0 +1,12 @@
+.classpath
+.project
+manifest.json
+logs
+bin
+build
+deploy
+dependencies
+artifacts
+.settings
+.idea
+.gradle

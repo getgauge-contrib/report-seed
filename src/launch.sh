@@ -1,0 +1,1 @@
+java -jar bin/report-seed.jar
