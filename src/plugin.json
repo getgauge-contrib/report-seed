@@ -4,8 +4,8 @@
   "description": "Report tags for gauge",
   "command" : {
     "windows": ["launch.cmd"],
-    "linux": ["launch.sh"],
-    "darwin": ["launch.sh"]
+    "linux": ["/bin/sh", "launch.sh"],
+    "darwin": ["/bin/sh", "launch.sh"]
   },
   "scope" : ["Execution"],
   "gaugeVersionSupport": {

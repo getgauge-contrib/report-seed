@@ -33,7 +33,7 @@ public class Reporter {
     }
 
     private static Socket connectToGauge() {
-        String portEnv = System.getenv("PLUGIN_CONNECTION_PORT");
+        String portEnv = System.getenv("plugin_connection_port");
         int port = Integer.parseInt(portEnv);
         Socket clientSocket;
         while (true) {
