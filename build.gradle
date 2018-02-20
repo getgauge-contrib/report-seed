@@ -17,24 +17,24 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'org.gauge.Reporter'
-        attributes 'Class-Path': '../lib'
+        attributes('Main-Class': 'org.gauge.Reporter',
+                'Class-Path': configurations.runtime.collect { "../libs/" + it.getName() }.join(' '))
     }
 }
 
 task distro(type: Zip) {
     copy {
         from configurations.compile
-        into 'deploy/lib'
+        into 'deploy/libs'
     }
-    copy{
+    copy {
         from 'src'
         into 'deploy'
         include 'launch.*'
         include 'plugin.json'
     }
 
-    copy{
+    copy {
         from 'build/libs'
         into 'deploy/bin'
         include '*.jar'
