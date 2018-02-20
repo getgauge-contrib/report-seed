@@ -1,9 +1,7 @@
 package org.gauge;
 
-import com.google.protobuf.CodedInputStream;
 import gauge.messages.Messages;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
@@ -24,7 +22,7 @@ public class Reporter {
     private static void listenForMessages(Socket socket, Consumer<Messages.Message> dispatcher) throws IOException {
         InputStream inputStream = socket.getInputStream();
         while (isConnected(socket)) {
-            dispatcher.accept(Messages.Message.parseFrom(toBytes(getMessageLength(inputStream))));
+            dispatcher.accept(Messages.Message.parseFrom(MessageLength.FromInputStream(inputStream).toBytes()));
         }
     }
 
@@ -53,23 +51,6 @@ public class Reporter {
                 System.out.println(" IS NOW DISPATCHING " + message.getMessageType());
             }
         });
-    }
-
-    private static byte[] toBytes(MessageLength messageLength) throws IOException {
-        long messageSize = messageLength.getLength();
-        CodedInputStream stream = messageLength.getRemainingStream();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        for (int i = 0; i < messageSize; i++) {
-            outputStream.write(stream.readRawByte());
-        }
-
-        return outputStream.toByteArray();
-    }
-
-    private static MessageLength getMessageLength(InputStream is) throws IOException {
-        CodedInputStream codedInputStream = CodedInputStream.newInstance(is);
-        long size = codedInputStream.readRawVarint64();
-        return new MessageLength(size, codedInputStream);
     }
 }
 
