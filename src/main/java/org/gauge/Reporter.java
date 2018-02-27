@@ -13,16 +13,22 @@ public class Reporter {
     public static void main(String[] args){
         Socket gaugeSocket = connectToGauge();
         try {
-            listenForMessages(gaugeSocket, dispatcher());
+            listenForMessages(gaugeSocket);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void listenForMessages(Socket socket, Consumer<Messages.Message> dispatcher) throws IOException {
-        InputStream inputStream = socket.getInputStream();
-        while (isConnected(socket)) {
-            dispatcher.accept(Messages.Message.parseFrom(MessageLength.FromInputStream(inputStream).toBytes()));
+    private static void listenForMessages(Socket socket) throws IOException {
+        if(isConnected(socket)) {
+            InputStream inputStream = socket.getInputStream();
+            while (isConnected(socket)) {
+                Messages.Message message = Messages.Message.parseFrom(MessageLength.FromInputStream(inputStream).toBytes());
+                if(message.getMessageType() == Messages.Message.MessageType.SuiteExecutionResult) {
+                    System.out.println(" IS NOW DISPATCHING " + message.getMessageType());
+                    return;
+                }
+            }
         }
     }
 
@@ -43,14 +49,6 @@ public class Reporter {
         }
 
         return clientSocket;
-    }
-
-    private static Consumer<Messages.Message> dispatcher() {
-        return (message -> {
-            if (message.getMessageType() == Messages.Message.MessageType.SuiteExecutionResult) {
-                System.out.println(" IS NOW DISPATCHING " + message.getMessageType());
-            }
-        });
     }
 }
 

@@ -1,5 +1,6 @@
 {
   "id": "report-seed",
+  "name": "report-seed",
   "version": "0.0.1",
   "description": "Report tags for gauge",
   "command" : {
