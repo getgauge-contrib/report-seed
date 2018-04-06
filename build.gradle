@@ -12,7 +12,6 @@ repositories {
 }
 
 dependencies {
-    compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.3.1'
     compile group: 'com.thoughtworks.gauge', name: 'gauge-api-client', version: '1.0.7'
 }
 
