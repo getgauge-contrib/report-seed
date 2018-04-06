@@ -9,13 +9,17 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.thoughtworks.gauge.Spec;
 import com.thoughtworks.gauge.Messages.*;
-import com.google.gson.*;
+import com.thoughtworks.gauge.Spec.ProtoItem;
+import com.thoughtworks.gauge.Spec.ProtoScenario;
+import com.thoughtworks.gauge.Spec.ProtoSpecResult;
+import com.thoughtworks.gauge.Spec.ProtoItem.ItemType;
 
-public class JsonReporter {
+public class CsvReporter {
     private static final String LOCALHOST = "127.0.0.1";
-    private static final String ReportDir = "json-report-example";
-    private static final String ResultFileName = "result.json";
+    private static final String ReportDir = "csv-report-example";
+    private static final String ResultFileName = "result.csv";
 
     public static void main(String[] args){
         String portEnv = System.getenv("plugin_connection_port");
@@ -34,9 +38,20 @@ public class JsonReporter {
                 Message message = Message.parseDelimitedFrom(socket.getInputStream());
                 if(message.getMessageType() == Message.MessageType.SuiteExecutionResult) {
                     SuiteExecutionResult result = message.getSuiteExecutionResult();
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
                     FileWriter writer = new FileWriter(getTargetFile());
-                    gson.toJson(result.getSuiteResult(), writer);
+                    writer.write("Spec,Scenario,Result,Time Taken\n");
+                    for (ProtoSpecResult spec : result.getSuiteResult().getSpecResultsList()) {
+                        for (ProtoItem item : spec.getProtoSpec().getItemsList()) {
+                            if(item.getItemType() == ItemType.Scenario){
+                                ProtoScenario scenario = item.getScenario();
+                                String s = spec.getProtoSpec().getSpecHeading() + "," +
+                                    scenario.getScenarioHeading() + "," +
+                                    scenario.getExecutionStatus().toString() + "," +
+                                    scenario.getExecutionTime() + "\n";
+                                writer.write(s);
+                            }
+                        }
+                    }
                     writer.flush();
                     writer.close();
                     System.exit(0);
