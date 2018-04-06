@@ -29,6 +29,15 @@ public class ExampleReporter {
                     System.exit(0);
                     return;
                 }
+                if(message.getMessageType() == Message.MessageType.KillProcessRequest) {
+                    // gauge signalled the plugin to kill itself gracefully
+                    // cleanup any resources and exit
+                    if(!socket.isClosed()) {
+                        socket.close();
+                    }
+                    System.exit(0);
+                    return;
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
