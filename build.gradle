@@ -1,7 +1,7 @@
 import groovy.json.JsonSlurper
 
 group 'org.gauge'
-version '1.0-SNAPSHOT'
+version '1.0-0'
 
 apply plugin: 'java'
 
@@ -12,8 +12,9 @@ repositories {
 }
 
 dependencies {
-    compile group: 'com.thoughtworks.gauge', name: 'gauge-api-client', version: '1.0.7'
+    compile group: 'com.thoughtworks.gauge', name: 'gauge-api-client', version: '1.0.27'
 }
+
 
 jar {
     manifest {
@@ -38,7 +39,7 @@ task distro(type: Zip) {
         from 'build/libs'
         into 'deploy/bin'
         include '*.jar'
-        rename { String fileName ->
+        rename { fileName ->
             fileName.replace("-${project.version.toString()}", '')
         }
     }

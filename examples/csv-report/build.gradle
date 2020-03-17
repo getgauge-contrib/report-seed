@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.thoughtworks.gauge:gauge-api-client:1.0.7'
+    compile 'com.thoughtworks.gauge:gauge-api-client:1.0.27'
 }
 
 jar {
@@ -38,7 +38,7 @@ task distro(type: Zip) {
         from 'build/libs'
         into 'deploy/bin'
         include '*.jar'
-        rename { String fileName ->
+        rename { fileName ->
             fileName.replace("-${project.version.toString()}", '')
         }
     }

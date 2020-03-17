@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.thoughtworks.gauge:gauge-api-client:1.0.7'
+    compile 'com.thoughtworks.gauge:gauge-api-client:1.0.27'
     compile 'com.google.code.gson:gson:2.8.2'
 }
 

@@ -3,14 +3,27 @@
   "name": "json-report-example",
   "version": "0.0.1",
   "description": "[EXAMPLE PLUGIN, not for production use] Sample json-report for gauge",
-  "command" : {
-    "windows": ["launch.cmd"],
-    "linux": ["/bin/sh", "launch.sh"],
-    "darwin": ["/bin/sh", "launch.sh"]
+  "command": {
+    "windows": [
+      "launch.cmd"
+    ],
+    "linux": [
+      "/bin/sh",
+      "launch.sh"
+    ],
+    "darwin": [
+      "/bin/sh",
+      "launch.sh"
+    ]
   },
-  "scope" : ["Execution"],
+  "scope": [
+    "Execution"
+  ],
   "gaugeVersionSupport": {
-    "minimum": "0.9.7",
+    "minimum": "1.0.7",
     "maximum": ""
-  }
+  },
+  "capabilities": [
+    "grpc_support"
+  ]
 }
